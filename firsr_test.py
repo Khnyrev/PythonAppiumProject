@@ -4,7 +4,7 @@ from appium import webdriver
 
 @pytest.fixture(scope="class")
 def set_up(request):
-    desired_caps = {
+    desired_capabilities = {
         "platformName": "Android",
         "deviceName": "emulator-5554",
         "platformVersion": "8.0.0",
@@ -14,7 +14,7 @@ def set_up(request):
         "app": "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
     }
     # Подключение к Appium серверу
-    driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_caps)
+    driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_capabilities)
 
     def _tear_down():
         driver.quit()
