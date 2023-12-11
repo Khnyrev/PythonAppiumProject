@@ -4,18 +4,17 @@ from selenium import webdriver
 
 @pytest.fixture(scope="class")
 def set_up(request):
-    desired_capabilities = dict (
-        platformName = "Android",
-        deviceName = "AndroidTestDevaice",
-        platformVersion = "8.0.0",
-        appPackage = "org.wikipedia",
-        appActivity = ".main.MainActivity",
-        # automationName = "Appium",
-        automationName='uiautomator2',
-        app = "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
-    )
+    desired_capabilities = {
+        "platformName": "Android",
+        "appium:deviceName": "AndroidTestDevaice",
+        "appium:platformVersion": "13.0",
+        "appium:appPackage": "org.wikipedia",
+        "appium:appActivity": ".main.MainActivity",
+        "appium:automationName": "UiAutomator2",
+        "app": "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
+    }
     # Подключение к Appium серверу
-    driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_capabilities)
+    driver = webdriver.Remote("http://localhost:4723/", desired_capabilities)
 
     def _tear_down():
         driver.quit()
