@@ -44,8 +44,6 @@ def test_first(get_driver):
         wait_result = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator), error_message)
         return wait_result.send_keys(string_value)
 
-    # mainpage_search_element = get_driver.find_element(AppiumBy.ID, "search_container")
-    # mainpage_search_element.click()
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
 
