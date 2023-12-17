@@ -2,7 +2,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element_to_disappear
+from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element_to_disappear, clear_element
 
 
 # APPIUM_PORT = 4723
@@ -24,12 +24,15 @@ def get_driver(request):
     # Подключение к Appium серверу
     driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
 
+    skip_button_locator = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
+    wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
+
+
     yield driver
     driver.quit()
 
 
 def test_first(get_driver):
-    import time
 
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
@@ -48,9 +51,32 @@ def test_cancel_search(get_driver):
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
 
-    cancel_search_button_locator = (AppiumBy.ID, 'org.wikipedia:id/search_close_btn')
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+    clear_element(get_driver, search_field_locator, 10)
+
+    cancel_search_button_locator = (AppiumBy.ACCESSIBILITY_ID, 'Navigate up')
     wait_for_element_and_click(get_driver, cancel_search_button_locator, 10)
 
     wait_for_element_to_disappear(get_driver, cancel_search_button_locator, 10, 'кнопка присутсвует')
+
+    print("SECOND TEST RUUUUN!")
+
+
+def test_article_title(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element_and_click(get_driver, search_result_locator, 10)
+
+    article_title_locator = (AppiumBy.XPATH, '//android.widget.TextView[@text="Python (programming language)"]')
+    article_title = wait_for_element(get_driver, article_title_locator, 10, "не нашли article_title_locator")
+    expected_title = "Python (programming language)"
+    assert article_title.text == expected_title, f"Ожидаемый заголовок: '{expected_title}', полученный заголовок: '{article_title.text}'"
 
     print("SECOND TEST RUUUUN!")

@@ -21,3 +21,7 @@ def wait_for_element_to_disappear(driver, locator, timeout=20, error_message="т
     wait_result = WebDriverWait(driver, timeout).until(EC.invisibility_of_element_located(locator), error_message)
     return wait_result
 
+
+def clear_element(driver, locator, timeout=20, error_message="текст по умолчанию"):
+    clear_result = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator), error_message)
+    return clear_result.clear
