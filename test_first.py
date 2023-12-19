@@ -3,7 +3,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
-    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements
+    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements,search_results_check
 
 
 # APPIUM_PORT = 4723
@@ -121,3 +121,17 @@ def test_homework_ex3(get_driver):
 
     elements_count = count_searched_elements(get_driver, search_result_locator, search_locator_type)
     assert elements_count < few_elements_count, "Количество элементов больше ожидаемого"
+
+
+def test_homework_ex4(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_results = get_driver.find_elements(AppiumBy.XPATH,
+                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title"]')
+    search_key_word = "python"
+
+    assert search_results_check(search_results, search_key_word), "не во всех результатах поиска присутсвует слово 'python'"

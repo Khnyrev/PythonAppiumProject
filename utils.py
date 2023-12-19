@@ -41,3 +41,10 @@ def count_searched_elements(driver, locator, locator_type, timeout=20, error_mes
     count_result = driver.find_elements(locator_type, locator)
     print(len(count_result))
     return len(count_result)
+
+
+def search_results_check(search_results, search_key_word):
+    for result in search_results:
+        if search_key_word in result.text.lower():
+            return True
+    return False
