@@ -115,3 +115,9 @@ def test_homework_ex3(get_driver):
 
     elements_count = count_searched_elements(get_driver, search_result_locator, search_locator_type)
     assert elements_count > few_elements_count, "Количество элементов меньше ожидаемого"
+
+    close_search_button_locator = (AppiumBy.ACCESSIBILITY_ID, 'Clear query')
+    wait_for_element_and_click(get_driver, close_search_button_locator, 10)
+
+    elements_count = count_searched_elements(get_driver, search_result_locator, search_locator_type)
+    assert elements_count < few_elements_count, "Количество элементов больше ожидаемого"
