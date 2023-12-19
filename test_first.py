@@ -3,7 +3,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
-    wait_for_element_to_disappear, clear_element, assert_element_has_text
+    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements
 
 
 # APPIUM_PORT = 4723
@@ -88,3 +88,30 @@ def test_homework_ex2(get_driver):
     assert result, f"Ожидаемый текст ,{home_work_text}'не найден'"
 
     print("4th TEST - RUUUUN!")
+
+
+# Ищет какое-то слово
+#
+# Убеждается, что найдено несколько статей
+#
+# Отменяет поиск
+#
+# Убеждается, что результат поиска пропал
+def test_homework_ex3(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element(get_driver, search_result_locator, 15, "Не нашли элемент с локатором: 'search_result_locator'")
+
+    search_result_locator = (
+                             '//android.widget.TextView[starts-with(@resource-id, "org.wikipedia:id/page_list_item_title") and starts-with(@text, "Python")] ')
+    search_locator_type = AppiumBy.XPATH
+    few_elements_count = 1  # задаем количество элементов для понятия "несколько" (считаем что 2 это уже несколько)
+
+    elements_count = count_searched_elements(get_driver, search_result_locator, search_locator_type)
+    assert elements_count > few_elements_count, "Количество элементов меньше ожидаемого"

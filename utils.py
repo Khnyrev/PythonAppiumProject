@@ -35,3 +35,9 @@ def clear_element(driver, locator, timeout=20, error_message="текст по у
 def assert_element_has_text(driver, locator, check_text, error_message="текст по умолчанию", timeout=20):
     check_result = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator), error_message)
     return check_result.text == check_text
+
+
+def count_searched_elements(driver, locator, locator_type, timeout=20, error_message="текст по умолчанию"):
+    count_result = driver.find_elements(locator_type, locator)
+    print(len(count_result))
+    return len(count_result)
