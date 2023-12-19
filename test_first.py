@@ -2,7 +2,8 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element_to_disappear, clear_element
+from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
+    wait_for_element_to_disappear, clear_element, assert_element_has_text
 
 
 # APPIUM_PORT = 4723
@@ -27,13 +28,11 @@ def get_driver(request):
     skip_button_locator = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
     wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
 
-
     yield driver
     driver.quit()
 
 
 def test_first(get_driver):
-
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
 
@@ -44,7 +43,7 @@ def test_first(get_driver):
                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
     wait_for_element(get_driver, search_result_locator, 15, "Не нашли элемент с локатором: 'search_result_locator'")
 
-    print("FIRST TEST RUUUUN!")
+    print("1st TEST - RUUUUN!")
 
 
 def test_cancel_search(get_driver):
@@ -60,7 +59,7 @@ def test_cancel_search(get_driver):
 
     wait_for_element_to_disappear(get_driver, cancel_search_button_locator, 10, 'кнопка присутсвует')
 
-    print("SECOND TEST RUUUUN!")
+    print("2nd TEST - RUUUUN!")
 
 
 def test_article_title(get_driver):
@@ -79,4 +78,13 @@ def test_article_title(get_driver):
     expected_title = "Python (programming language)"
     assert article_title.text == expected_title, f"Ожидаемый заголовок: '{expected_title}', полученный заголовок: '{article_title.text}'"
 
-    print("SECOND TEST RUUUUN!")
+    print("3rd TEST - RUUUUN!")
+
+
+def test_homework_ex2(get_driver):
+    home_work_text = "Search Wikipedia2"
+    home_work_locator = (AppiumBy.XPATH, '//android.widget.TextView[@text="Search Wikipedia"]')
+    result = assert_element_has_text(get_driver, home_work_locator, home_work_text, 10)
+    assert result, f"Ожидаемый текст ,{home_work_text}'не найден'"
+
+    print("4th TEST - RUUUUN!")
