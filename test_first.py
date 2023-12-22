@@ -1,9 +1,11 @@
 import pytest
 from appium import webdriver
+from appium.webdriver.common.touch_action import TouchAction
+from appium.webdriver.common.multi_action import MultiAction
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
-    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements,search_results_check
+    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements, search_results_check
 
 
 # APPIUM_PORT = 4723
@@ -90,13 +92,6 @@ def test_homework_ex2(get_driver):
     print("4th TEST - RUUUUN!")
 
 
-# Ищет какое-то слово
-#
-# Убеждается, что найдено несколько статей
-#
-# Отменяет поиск
-#
-# Убеждается, что результат поиска пропал
 def test_homework_ex3(get_driver):
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
@@ -109,7 +104,7 @@ def test_homework_ex3(get_driver):
     wait_for_element(get_driver, search_result_locator, 15, "Не нашли элемент с локатором: 'search_result_locator'")
 
     search_result_locator = (
-                             '//android.widget.TextView[starts-with(@resource-id, "org.wikipedia:id/page_list_item_title") and starts-with(@text, "Python")] ')
+        '//android.widget.TextView[starts-with(@resource-id, "org.wikipedia:id/page_list_item_title") and starts-with(@text, "Python")] ')
     search_locator_type = AppiumBy.XPATH
     few_elements_count = 1  # задаем количество элементов для понятия "несколько" (считаем что 2 это уже несколько)
 
@@ -131,7 +126,50 @@ def test_homework_ex4(get_driver):
     wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
 
     search_results = get_driver.find_elements(AppiumBy.XPATH,
-                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title"]')
+                                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title"]')
     search_key_word = "python"
 
-    assert search_results_check(search_results, search_key_word), "не во всех результатах поиска присутсвует слово 'python'"
+    assert search_results_check(search_results,
+                                search_key_word), "не во всех результатах поиска присутсвует слово 'python'"
+
+
+def test_swipe(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element_and_click(get_driver, search_result_locator, 10)
+
+    # touch_action =
+
+    # size = get_driver.get_window_size()
+    # start_x = size['width'] / 2
+    # start_y = size['height'] * 0.8
+    # end_y = size['height'] * 0.4
+    # swipe_action = TouchAction(get_driver)
+    # swipe_action.press(x=start_x, y=start_y).wait(2000).move_to(x=start_x,y=end_y).release().perform()
+
+    # actions = ActionBuilder(get_driver)
+    # # override as 'touch' pointer action
+    # actions.w3c_actions = ActionBuilder(get_driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
+    # actions.w3c_actions.pointer_action.move_to_location(start_x, start_y)
+    # actions.w3c_actions.pointer_action.pointer_down()
+    # actions.w3c_actions.pointer_action.pause(2)
+    # actions.w3c_actions.pointer_action.move_to_location(start_x, end_y)
+    # actions.w3c_actions.pointer_action.release()
+    # actions.perform()
+
+    size = get_driver.get_window_size()
+    start_x = size['width'] / 2
+    start_y = size['height'] * 0.8
+    end_y = size['height'] * 0.4
+
+    # использование нового W3C-стандарта
+    actions = TouchAction(get_driver)
+    # actions.press(x=start_x, y=start_y).wait(2000).move_to(x=start_x, y=end_y).release().perform()
+    actions.tap(x=start_x, y=start_y).wait(2000).move_to(x=start_x, y=end_y).release().perform()
+
