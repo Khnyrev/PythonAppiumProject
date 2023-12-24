@@ -5,7 +5,8 @@ from appium.webdriver.common.multi_action import MultiAction
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
-    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements, search_results_check
+    wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements, \
+    search_results_check, swipe_up
 
 
 # APPIUM_PORT = 4723
@@ -144,32 +145,6 @@ def test_swipe(get_driver):
                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
     wait_for_element_and_click(get_driver, search_result_locator, 10)
 
-    # touch_action =
-
-    # size = get_driver.get_window_size()
-    # start_x = size['width'] / 2
-    # start_y = size['height'] * 0.8
-    # end_y = size['height'] * 0.4
-    # swipe_action = TouchAction(get_driver)
-    # swipe_action.press(x=start_x, y=start_y).wait(2000).move_to(x=start_x,y=end_y).release().perform()
-
-    # actions = ActionBuilder(get_driver)
-    # # override as 'touch' pointer action
-    # actions.w3c_actions = ActionBuilder(get_driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-    # actions.w3c_actions.pointer_action.move_to_location(start_x, start_y)
-    # actions.w3c_actions.pointer_action.pointer_down()
-    # actions.w3c_actions.pointer_action.pause(2)
-    # actions.w3c_actions.pointer_action.move_to_location(start_x, end_y)
-    # actions.w3c_actions.pointer_action.release()
-    # actions.perform()
-
-    size = get_driver.get_window_size()
-    start_x = size['width'] / 2
-    start_y = size['height'] * 0.8
-    end_y = size['height'] * 0.4
-
-    # использование нового W3C-стандарта
-    actions = TouchAction(get_driver)
-    # actions.press(x=start_x, y=start_y).wait(2000).move_to(x=start_x, y=end_y).release().perform()
-    actions.tap(x=start_x, y=start_y).wait(2000).move_to(x=start_x, y=end_y).release().perform()
-
+    swipe_up(get_driver, 2000)
+    swipe_up(get_driver, 2000)
+    swipe_up(get_driver, 2000)

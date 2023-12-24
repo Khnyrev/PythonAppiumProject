@@ -48,3 +48,12 @@ def search_results_check(search_results, search_key_word):
         if search_key_word in result.text.lower():
             return True
     return False
+
+
+def swipe_up(driver, swipe_time):
+    size = driver.get_window_size()
+    start_x = size['width'] / 2
+    start_y = size['height'] * 0.8
+    end_y = size['height'] * 0.4
+    swipe_up_result = driver.swipe(start_x, start_y, start_x, end_y, swipe_time)
+    return swipe_up_result
