@@ -27,11 +27,6 @@ def clear_element(driver, locator, timeout=20, error_message="текст по у
     return clear_result.clear
 
 
-# Необходимо написать функцию, которая проверяет наличие ожидаемого текста у элемента.
-# Предлагается назвать ее assertElementHasText. На вход эта функция должна принимать локатор элемент,
-# ожидаемый текст и текст ошибки, который будет написан в случае, если элемент по этому локатору не содержит текст,
-# который мы ожидаем.
-
 def assert_element_has_text(driver, locator, check_text, error_message="текст по умолчанию", timeout=20):
     check_result = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator), error_message)
     return check_result.text == check_text
@@ -57,3 +52,14 @@ def swipe_up(driver, swipe_time):
     end_y = size['height'] * 0.4
     swipe_up_result = driver.swipe(start_x, start_y, start_x, end_y, swipe_time)
     return swipe_up_result
+
+
+def swipe_up_for_find_element(driver, locator_type, locator, max_swipes):
+    already_swipe = 0
+    while len(driver.find_elements(locator_type, locator)) == 0:
+        if already_swipe > max_swipes:
+            locator_check = (locator_type, locator)
+            wait_for_element(driver, locator_check, 10)
+            return
+        swipe_up(driver, 200)
+        already_swipe += 1

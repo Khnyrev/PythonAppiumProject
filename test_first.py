@@ -4,7 +4,7 @@ from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from .utils import wait_for_element, wait_for_element_and_click, wait_for_element_and_send_keys, \
     wait_for_element_to_disappear, clear_element, assert_element_has_text, count_searched_elements, \
-    search_results_check, swipe_up
+    search_results_check, swipe_up, swipe_up_for_find_element
 
 
 # APPIUM_PORT = 4723
@@ -157,27 +157,7 @@ def test_swipe_up_for_find_element(get_driver):
                              '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Appium"]')
     wait_for_element_and_click(get_driver, search_result_locator, 10)
 
+    element_locator_type = AppiumBy.ACCESSIBILITY_ID
+    element_locator = ('View article in browser')
 
-    def swipe_up_for_find_element(driver, max_swipes):
-        already_swipe = 0
-        while len(driver.find_elements(AppiumBy.ACCESSIBILITY_ID, 'View article in browser')) == 0:
-            if already_swipe > max_swipes:
-                locator = (AppiumBy.ACCESSIBILITY_ID, 'View article in browser')
-                wait_for_element(get_driver, locator, 10)
-                return
-            swipe_up(driver, 200)
-            already_swipe += 1
-
-    swipe_up_for_find_element(get_driver, 2)
-
-    # код ниже вызывает ошибку "Message: Locator Strategy 'accessibility id,View article in browser' is not supported for this session; "
-    # для воспроизведеения нужно закоментировать код с 161 по 171 строки
-    # и раскомментировать код с 177 по 184 строки
-
-    # point_element_locator = (AppiumBy.ACCESSIBILITY_ID, 'View article in browser')
-
-    # def swipe_up_for_find_element(driver, locator):
-    #     while len(driver.find_elements(locator)) == 0:
-    #         swipe_up(driver, 200)
-
-    # swipe_up_for_find_element(get_driver, point_element_locator)
+    swipe_up_for_find_element(get_driver, element_locator_type, element_locator, 2)
