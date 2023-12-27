@@ -1,4 +1,5 @@
 import pytest
+import time
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
@@ -161,3 +162,80 @@ def test_swipe_up_for_find_element(get_driver):
     element_locator = ('View article in browser')
 
     swipe_up_for_find_element(get_driver, element_locator_type, element_locator, 2)
+
+
+def test_save_first_article(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element_and_click(get_driver, search_result_locator, 10)
+
+    kebab_menu_locator = (AppiumBy.ID, 'org.wikipedia:id/page_toolbar_button_show_overflow_menu')
+    wait_for_element_and_click(get_driver, kebab_menu_locator, 10)
+
+    customize_toolbar_locator = (AppiumBy.ID, 'org.wikipedia:id/customize_toolbar')
+    wait_for_element_and_click(get_driver, customize_toolbar_locator, 10)
+    time.sleep(1)
+
+    wait_for_element(get_driver, (AppiumBy.XPATH,
+                                  '//android.widget.TextView[@content-desc="Press and drag an item to reposition it" and @text="Save"]'),
+                     10)
+
+    save_icon_dragpoint_locator = get_driver.find_element(AppiumBy.XPATH,
+                                                          '(//android.widget.ImageView[@content-desc="Hold the drag icon to move the item"])[1]')
+    edit_history_locator = get_driver.find_element(AppiumBy.XPATH,
+                                                   '//android.widget.TextView[@content-desc="Press and drag an item to reposition it" and @text="Edit history"]')
+    get_driver.drag_and_drop(save_icon_dragpoint_locator, edit_history_locator)
+
+    back_to_previus_button_locator = (AppiumBy.ACCESSIBILITY_ID, 'Navigate up')
+    wait_for_element_and_click(get_driver, back_to_previus_button_locator, 10)
+
+    kebab_menu_locator = (AppiumBy.ID, 'org.wikipedia:id/page_toolbar_button_show_overflow_menu')
+    wait_for_element_and_click(get_driver, kebab_menu_locator, 10)
+
+    kebab_save_locator = (AppiumBy.ID, 'org.wikipedia:id/page_save')
+    wait_for_element_and_click(get_driver, kebab_save_locator, 10)
+
+    add_to_list_locator = (AppiumBy.ID, 'org.wikipedia:id/snackbar_action')
+    wait_for_element_and_click(get_driver, add_to_list_locator, 10)
+
+    popup_field_locator = (AppiumBy.ID, 'org.wikipedia:id/text_input_container')
+    wait_for_element_and_click(get_driver, popup_field_locator, 10)
+
+    popup_input_field_locator = (AppiumBy.ID, 'org.wikipedia:id/text_input')
+    wait_for_element_and_send_keys(get_driver, popup_input_field_locator, 'AAAA', 10)
+
+    popup_ok_locator = (AppiumBy.ID, 'android:id/button1')
+    wait_for_element_and_click(get_driver, popup_ok_locator, 10)
+
+    wait_for_element_and_click(get_driver, back_to_previus_button_locator, 10)
+    wait_for_element_and_click(get_driver, back_to_previus_button_locator, 10)
+
+    saved_articles_nav_button_locator = (AppiumBy.ID, 'org.wikipedia:id/navigation_bar_item_active_indicator_view')
+    wait_for_element_and_click(get_driver, saved_articles_nav_button_locator, 10)
+
+    go_to_article_list_locator = (AppiumBy.XPATH, '//android.widget.TextView[@resource-id="org.wikipedia:id/navigation_bar_item_small_label_view" and @text="Saved"]')
+    wait_for_element_and_click(get_driver, go_to_article_list_locator, 10)
+
+    saved_articles_group_locator = (AppiumBy.XPATH, '//android.widget.TextView[@resource-id="org.wikipedia:id/item_title" and @text="AAAA"]')
+    wait_for_element_and_click(get_driver, saved_articles_group_locator, 10)
+
+    saved_article_locator = get_driver.find_element(AppiumBy.ID, 'org.wikipedia:id/page_list_item_container')
+
+    x_start = 90
+    print(f'##### {x_start} x start ######')
+    y_start = 960
+    print(f'##### {y_start} y start ######')
+    x_stop = x_start + 900
+    print(f'##### {x_stop} x stop ######')
+    y_stop = y_start
+
+    get_driver.swipe(x_start, y_start, x_stop, y_stop, 300)
+    time.sleep(10)
+
+    wait_for_element_to_disappear(get_driver, saved_article_locator, 10)
