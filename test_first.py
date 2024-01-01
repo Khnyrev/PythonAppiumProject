@@ -219,10 +219,12 @@ def test_save_first_article(get_driver):
     saved_articles_nav_button_locator = (AppiumBy.ID, 'org.wikipedia:id/navigation_bar_item_active_indicator_view')
     wait_for_element_and_click(get_driver, saved_articles_nav_button_locator, 10)
 
-    go_to_article_list_locator = (AppiumBy.XPATH, '//android.widget.TextView[@resource-id="org.wikipedia:id/navigation_bar_item_small_label_view" and @text="Saved"]')
+    go_to_article_list_locator = (AppiumBy.XPATH,
+                                  '//android.widget.TextView[@resource-id="org.wikipedia:id/navigation_bar_item_small_label_view" and @text="Saved"]')
     wait_for_element_and_click(get_driver, go_to_article_list_locator, 10)
 
-    saved_articles_group_locator = (AppiumBy.XPATH, '//android.widget.TextView[@resource-id="org.wikipedia:id/item_title" and @text="AAAA"]')
+    saved_articles_group_locator = (
+        AppiumBy.XPATH, '//android.widget.TextView[@resource-id="org.wikipedia:id/item_title" and @text="AAAA"]')
     wait_for_element_and_click(get_driver, saved_articles_group_locator, 10)
 
     saved_article_locator = get_driver.find_element(AppiumBy.ID, 'org.wikipedia:id/page_list_item_container')
@@ -239,3 +241,46 @@ def test_save_first_article(get_driver):
     time.sleep(10)
 
     wait_for_element_to_disappear(get_driver, saved_article_locator, 10)
+
+
+def test_screen_rotation(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element_and_click(get_driver, search_result_locator, 10)
+
+    article_title_locator = (AppiumBy.XPATH, '//android.widget.TextView[@text="Python (programming language)"]')
+    wait_for_element(get_driver, article_title_locator, 10, 'не нашли заголовок до поворота экрана')
+
+    get_driver.orientation = "LANDSCAPE"
+
+    wait_for_element(get_driver, article_title_locator, 10, 'не нашли заголовок до поворота экрана')
+
+    get_driver.orientation = "PORTRAIT"
+
+    wait_for_element(get_driver, article_title_locator, 10, 'не нашли заголовок до поворота экрана')
+
+
+def test_go_to_background(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "PYTHON", 10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element(get_driver, search_result_locator, 10)
+
+    get_driver.background_app(10)
+
+    search_result_locator = (AppiumBy.XPATH,
+                             '//android.widget.TextView[@resource-id="org.wikipedia:id/page_list_item_title" and @text="Python (programming language)"]')
+    wait_for_element(get_driver, search_result_locator, 10, 'Can`t found article after return from background')
+
+
