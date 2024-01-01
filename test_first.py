@@ -383,9 +383,31 @@ def test_homework_ex5(get_driver):
     wait_for_element_to_disappear(get_driver, python_pic_locator, 10, 'element saved_article_locator didnt disappear')
     print("######## We are waiting wait_for_element_to_disappear ##############")
 
-#     Check articles count
+    #     Check articles count
     java_article_locator = (AppiumBy.ACCESSIBILITY_ID, 'Image: Java (programming language)')
     wait_for_element_and_click(get_driver, java_article_locator, 10, 'cannot click to the java_article_locator')
 
     java_article_title_locator = (AppiumBy.XPATH, '//android.widget.TextView[@text="Java (programming language)"]')
     wait_for_element(get_driver, java_article_title_locator, 10, 'no java_article_title_locator')
+
+
+def test_homework_ex6(get_driver):
+    main_page_search_field_locator = (AppiumBy.ID, "search_container")
+    wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+    search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+    wait_for_element_and_send_keys(get_driver, search_field_locator, "JAVA", 10)
+
+    java_search_result_locator = (AppiumBy.XPATH, '//android.widget.TextView['
+                                                  '@resource-id="org.wikipedia:id/page_list_item_title" and '
+                                                  '@text="Java (programming language)"]')
+    wait_for_element_and_click(get_driver, java_search_result_locator, 10, 'no JAVA search result found')
+
+    # java_article_title_locator = (AppiumBy.XPATH, '//android.widget.TextView[@text="Java (programming language)"]')
+    #
+    # wait_for_element(get_driver, java_article_title_locator, 10, 'no JAVA title')
+    title_java = get_driver.find_element(AppiumBy.XPATH,
+                                   '//android.widget.TextView[@text="Java (programming language)"]'), 'element JAVA title not found'
+
+    assert title_java, 'element JAVA title not found'
+
