@@ -407,7 +407,32 @@ def test_homework_ex6(get_driver):
     #
     # wait_for_element(get_driver, java_article_title_locator, 10, 'no JAVA title')
     title_java = get_driver.find_element(AppiumBy.XPATH,
-                                   '//android.widget.TextView[@text="Java (programming language)"]'), 'element JAVA title not found'
+                                   '//android.widget.TextView[@text="Java (programming language)"]')
 
     assert title_java, 'element JAVA title not found'
 
+
+def test_homework_ex7(get_driver):
+    try:
+        main_page_search_field_locator = (AppiumBy.ID, "search_container")
+        wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
+
+        search_field_locator = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
+        wait_for_element_and_send_keys(get_driver, search_field_locator, "JAVA", 10)
+
+        java_search_result_locator = (AppiumBy.XPATH, '//android.widget.TextView['
+                                                      '@resource-id="org.wikipedia:id/page_list_item_title" and '
+                                                      '@text="Java (programming language)"]')
+        wait_for_element_and_click(get_driver, java_search_result_locator, 10, 'no JAVA search result found')
+        get_driver.orientation = "LANDSCAPE"
+
+        #  код для выполнения  тестовых шагов, которые могут вызвать падение
+        wrong_title_java = get_driver.find_element(AppiumBy.XPATH,
+                                   '//android.widget.TextView[@text="Java (programming language3333)"]')
+
+        wait_for_element(get_driver, wrong_title_java, 10)
+
+    except Exception as e:
+        print("Test failed:", e)
+        # В случае сбоя – восстановление положения экрана
+        get_driver.orientation = "PORTRAIT"  # Возврат экрана в вертикальное положение
