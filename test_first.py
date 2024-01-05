@@ -8,32 +8,6 @@ from .utils import wait_for_element, wait_for_element_and_click, wait_for_elemen
     search_results_check, swipe_up, swipe_up_for_find_element
 
 
-# APPIUM_PORT = 4723
-# APPIUM_HOST = '127.0.0.1'
-# TIMEOUT = 5
-
-
-@pytest.fixture
-def get_driver(request):
-    options = UiAutomator2Options()
-    options.platform_name = "Android"
-    options.platformVersion = '13.0'
-    options.device_name = "some_device"
-    options.app_activity = ".main.MainActivity"
-    options.app_package = "org.wikipedia"
-    options.automation_name = "UiAutomator2"
-    options.app = "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
-
-    # Подключение к Appium серверу
-    driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
-
-    skip_button_locator = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
-    wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
-
-    yield driver
-    driver.quit()
-
-
 def test_first(get_driver):
     main_page_search_field_locator = (AppiumBy.ID, "search_container")
     wait_for_element_and_click(get_driver, main_page_search_field_locator, 10)
@@ -407,7 +381,7 @@ def test_homework_ex6(get_driver):
     #
     # wait_for_element(get_driver, java_article_title_locator, 10, 'no JAVA title')
     title_java = get_driver.find_element(AppiumBy.XPATH,
-                                   '//android.widget.TextView[@text="Java (programming language)"]')
+                                         '//android.widget.TextView[@text="Java (programming language)"]')
 
     assert title_java, 'element JAVA title not found'
 
@@ -428,7 +402,7 @@ def test_homework_ex7(get_driver):
 
         #  код для выполнения  тестовых шагов, которые могут вызвать падение
         wrong_title_java = get_driver.find_element(AppiumBy.XPATH,
-                                   '//android.widget.TextView[@text="Java (programming language3333)"]')
+                                                   '//android.widget.TextView[@text="Java (programming language3333)"]')
 
         wait_for_element(get_driver, wrong_title_java, 10)
 
