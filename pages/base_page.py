@@ -5,8 +5,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
 
 
-
-
 class BasePage:
     LOCATOR_GO_BACK_BUTTON = 'Navigate up'
     LOCATOR_GO_BACK_BUTTON_TYPE = AppiumBy.ACCESSIBILITY_ID
@@ -42,7 +40,8 @@ class BasePage:
 
     def find_element(self, locator):
         locator_type = locator[0]
-        print(f'#### locator_type is {locator_type} ####')  # почему печатает "#### locator_type is xpath ####" а не "AppiumBy.XPATH"
+        print(
+            f'#### locator_type is {locator_type} ####')  # почему печатает "#### locator_type is xpath ####" а не "AppiumBy.XPATH"
         locator_value = locator[1]
         print(f'#### locator_value is {locator_value} ####')
         try:
