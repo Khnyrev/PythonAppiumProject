@@ -1,7 +1,7 @@
-from .pages.main_page_object import Search
-from .pages.article_page_object import KebabMenu, SaveArticle, ArticleBody
-from .pages.article_list_object import ArticleLists
-from .pages.base_page import BasePage
+from PythonAppiumProject.pages.main_page_object import Search
+from PythonAppiumProject.pages.article_page_object import KebabMenu, SaveArticle, ArticleBody
+from PythonAppiumProject.pages.article_list_object import ArticleLists
+from PythonAppiumProject.pages.base_page import BasePage
 import time
 
 """ CHeck search result > 1 and check delete search result"""

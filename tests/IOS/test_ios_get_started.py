@@ -6,7 +6,7 @@ from appium.options.ios import XCUITestOptions
 from appium import webdriver
 from appium.webdriver.appium_service import AppiumService
 from appium.webdriver.common.appiumby import AppiumBy
-from ..pages.base_page import BasePage
+from PythonAppiumProject.pages.base_page import BasePage
 
 APPIUM_PORT = 4723
 APPIUM_HOST = '127.0.0.1'

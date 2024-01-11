@@ -7,7 +7,8 @@ from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.options.ios import XCUITestOptions
 
-from PythonAppiumProject.utils import wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element
+# from PythonAppiumProject.utils import wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element
+from PythonAppiumProject.pages.base_page import BasePage
 
 
 def pytest_report_header():
@@ -21,23 +22,19 @@ PLATFORM_ANDROID = 'android'
 
 @pytest.fixture
 def get_driver(request):
-    # options = UiAutomator2Options()
-    # options.platform_name = "Android"
-    # options.platformVersion = '13.0'
-    # options.device_name = "some_device"
-    # options.app_activity = ".main.MainActivity"
-    # options.app_package = "org.wikipedia"
-    # options.automation_name = "UiAutomator2"
-    # options.app = "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
 
-    platform = os.getenv("PLATFORM")
-    print(f' ##################### platform is {platform} #####################')
+    # platform = os.getenv("PLATFORM")
+    # print(f' ##################### platform is {platform} #####################')
+    check = os.getenv('PLATFORM')
+    print(f' ##################### platform is {check} #####################')
     options = get_options(PLATFORM_ANDROID)
     # Подключение к Appium серверу
     driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
 
     skip_button_locator = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
-    wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
+    # wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
+    skip_button = driver.find_element(AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
+    skip_button.click()
 
     yield driver
     driver.quit()
