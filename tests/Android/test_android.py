@@ -1,6 +1,7 @@
 from PythonAppiumProject.pages.main_page_object import Search
 from PythonAppiumProject.pages.article_page_object import KebabMenu, SaveArticle, ArticleBody
 from PythonAppiumProject.pages.article_list_object import ArticleLists
+from PythonAppiumProject.pages.AndroidPages.onbording_page import OnboardingPage
 from PythonAppiumProject.pages.base_page import BasePage
 import time
 
@@ -8,7 +9,10 @@ import time
 
 
 def test_search_result(get_driver):
-    search_results = Search(get_driver)  # почему так???
+
+    OnboardingPage(get_driver).skip_onboarding()
+
+    search_results = Search(get_driver)
     search_results.enter_word('PYTHON')
 
     current_elements_count = search_results.show_search_results('Python')
@@ -22,6 +26,8 @@ def test_search_result(get_driver):
 
 
 def test_saving_two_articles_in_list(get_driver):
+    OnboardingPage(get_driver).skip_onboarding()
+
     search_results = Search(get_driver)  # почему так???
     search_results.enter_word('PYTHON')
     article_screen = search_results.searched_article('Python (programming language)')
@@ -65,6 +71,8 @@ def test_saving_two_articles_in_list(get_driver):
 
 
 def test_assert_title(get_driver):
+    OnboardingPage(get_driver).skip_onboarding()
+
     search_results = Search(
         get_driver)  # нужно присать каждый раз или нужно создать много функций в файлах page_object ?
     search_results.enter_word('JAVA')

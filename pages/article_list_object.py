@@ -1,4 +1,4 @@
-from .base_page import BasePage
+from PythonAppiumProject.pages.base_page import BasePage
 from appium.webdriver.common.appiumby import AppiumBy
 
 
