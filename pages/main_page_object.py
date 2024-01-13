@@ -33,7 +33,7 @@ class Search(BasePage):
 
     def show_search_results(self, word):
         WikiSearchLocators.LOCATOR_SEARCH_RESULTS = WikiSearchLocators.LOCATOR_SEARCH_RESULTS.format(word)
-        current_elements_count = BasePage.count_searched_elements(self, WikiSearchLocators.LOCATOR_SEARCH_RESULTS,  # почему сюда передаем self ?
+        current_elements_count = BasePage.count_searched_elements(self, WikiSearchLocators.LOCATOR_SEARCH_RESULTS,
                                                                   WikiSearchLocators.LOCATOR_SEARCH_RESULT_TYPE,
                                                                   10,
                                                                   'can`t found current_elements_count')

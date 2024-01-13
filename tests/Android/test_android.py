@@ -28,17 +28,17 @@ def test_search_result(get_driver):
 def test_saving_two_articles_in_list(get_driver):
     OnboardingPage(get_driver).skip_onboarding()
 
-    search_results = Search(get_driver)  # почему так???
+    search_results = Search(get_driver)
     search_results.enter_word('PYTHON')
     article_screen = search_results.searched_article('Python (programming language)')
     article_screen.click()  # Open 1st article
 
-    kebab_menu = KebabMenu(get_driver)  # Нормально ли так организовывать следующие 5 строк
+    kebab_menu = KebabMenu(get_driver)
     kebab_menu.open_kebab_menu()
     kebab_menu.open_customize_kebab_menu()
     kebab_menu.drug_save_icon()
-    base_page = BasePage(get_driver)  # Создаем экземпляр класса BasePage А зачем передавать get_driver?
-    base_page.back_to_previous_screen()  # Вызываем метод back_to_previous_screen
+    base_page = BasePage(get_driver)
+    base_page.back_to_previous_screen()
 
     kebab_menu.open_kebab_menu()
     kebab_menu.save_article_kebab_menu()
@@ -58,7 +58,7 @@ def test_saving_two_articles_in_list(get_driver):
     save_article_to_list.view_saved_list()  # здесь происходит нажатие на view saved list
 
     article_list_element = ArticleLists(get_driver)
-    article_list_element.locate_python_element()  # нужно ли передавать сюда элементы(напримерм как в 45й строке) или можно/нужно их хардкодить в описании страницы?
+    article_list_element.locate_python_element()
     article_list_element.swipe_element_right()
 
     article_list_element.check_element_was_deleted()
@@ -74,7 +74,7 @@ def test_assert_title(get_driver):
     OnboardingPage(get_driver).skip_onboarding()
 
     search_results = Search(
-        get_driver)  # нужно присать каждый раз или нужно создать много функций в файлах page_object ?
+        get_driver)
     search_results.enter_word('JAVA')
     article_screen = search_results.searched_article('Java (programming language)')
     article_screen.click()

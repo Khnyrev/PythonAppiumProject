@@ -19,12 +19,17 @@ PLATFORM_ANDROID = 'android'
 
 
 @pytest.fixture(autouse=True)
-def get_driver():
+def get_driver(request):
 
-    # platform = os.getenv("PLATFORM")
+    check = os.environ.get('PLATFORM')
+    print(f' ##################### TRY os.environ.get platform is {check} #####################')
+
+
     # print(f' ##################### platform is {platform} #####################')
-    check = os.getenv('PLATFORM')
-    print(f' ##################### platform is {check} #####################')
+    # os.environ['PLATFORM'] = 'android-r2d2'
+
+    platform = os.getenv("PLATFORM")
+    print(f' ##################### platform is {platform} #####################')
     options = get_options(PLATFORM_ANDROID)
     # Подключение к Appium серверу
     driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
@@ -37,8 +42,6 @@ def get_driver():
 
     yield driver
     driver.quit()
-
-
 
 
 APPIUM_PORT = 4723

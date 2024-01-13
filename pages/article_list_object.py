@@ -10,7 +10,7 @@ class ArticleListsLocators:
 
 class ArticleLists(BasePage):
 
-    def locate_python_element(self):  # нужно ли это делать отдельной функцией и в каком модуле? может в base_page?
+    def locate_python_element(self):
         element_coordinates = self.wait_for_element(ArticleListsLocators.LOCATOR_PYTHON_ICON,
                                                     10,
                                                     'can`t found element_coordinates').location
@@ -30,7 +30,7 @@ class ArticleLists(BasePage):
         return self.driver.swipe(x_start, y_start, x_stop, y_stop, 1300)
 
     def check_element_was_deleted(self):
-        return BasePage.wait_for_element_to_disappear(self, ArticleListsLocators.LOCATOR_PYTHON_ICON, 10,  # почему сюда передаем self ?
+        return BasePage.wait_for_element_to_disappear(self, ArticleListsLocators.LOCATOR_PYTHON_ICON, 10,
                                                'LOCATOR_PYTHON_ICON was found')
 
     def check_java_element(self):

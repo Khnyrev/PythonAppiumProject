@@ -5,6 +5,19 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
 
 
+# def get_locator_string(locator_with_type):
+#     exploded_locator = locator_with_type.split(":")
+#     locator_type = exploded_locator[0]
+#     locator_body = exploded_locator[1]
+#
+#     if locator_type == "xpath":
+#         return AppiumBy.XPATH, locator_body
+#     elif locator_type == "id":
+#         return AppiumBy.ID, locator_body
+#     elif locator_type == "accessibility id":
+#         return AppiumBy.ACCESSIBILITY_ID, locator_body
+
+
 class BasePage:
     LOCATOR_GO_BACK_BUTTON = 'Navigate up'
     LOCATOR_GO_BACK_BUTTON_TYPE = AppiumBy.ACCESSIBILITY_ID
@@ -18,7 +31,7 @@ class BasePage:
         return wait_result
 
     def wait_for_element_and_click(self, locator, timeout=20,
-                                   error_message="текст по умолчанию"):  # лучше реализовать так или оставить как сейчас с конструкцией .click()  ?
+                                   error_message="текст по умолчанию"):
         wait_result = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator),
                                                                 error_message)
         return wait_result.click()
@@ -41,7 +54,7 @@ class BasePage:
     def find_element(self, locator):
         locator_type = locator[0]
         print(
-            f'#### locator_type is {locator_type} ####')  # почему печатает "#### locator_type is xpath ####" а не "AppiumBy.XPATH"
+            f'#### locator_type is {locator_type} ####')
         locator_value = locator[1]
         print(f'#### locator_value is {locator_value} ####')
         try:

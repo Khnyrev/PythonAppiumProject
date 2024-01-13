@@ -21,7 +21,7 @@ class ArticleScreenLocators:
     LOCATOR_ADD_ARTICLE_TO_EXISTING_LIST = (AppiumBy.ID, 'org.wikipedia:id/item_title')
     LOCATOR_VIEW_LIST_BUTTON = (AppiumBy.ID, 'org.wikipedia:id/snackbar_action')
     LOCATOR_JAVA_ARTICLE_TITLE = (AppiumBy.XPATH,
-                                  '//android.widget.TextView[@text="Java (programming language)"]')  # можно делать так или для гибкости нужно сразу писать с возможностью замены данных?
+                                  '//android.widget.TextView[@text="Java (programming language)"]')
 
 
 class KebabMenu(BasePage):
