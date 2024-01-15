@@ -5,8 +5,10 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 
+from PythonAppiumProject.SessionStorage import session_storage
+from PythonAppiumProject.pages.AndroidPages.onboarding_page import OnboardingPage
+from PythonAppiumProject.pages.AndroidPages.base_page import Basepage
 
-# from PythonAppiumProject.utils import wait_for_element_and_click, wait_for_element_and_send_keys, wait_for_element
 
 
 def pytest_report_header():
@@ -14,41 +16,38 @@ def pytest_report_header():
     return "Thanks for running the tests."
 
 
+APPIUM_PORT = 4723
+APPIUM_HOST = '127.0.0.1'
 PLATFORM_IOS = 'ios'
 PLATFORM_ANDROID = 'android'
 
 
 @pytest.fixture(autouse=True)
 def get_driver(request):
-
-    check = os.environ.get('PLATFORM')
-    print(f' ##################### TRY os.environ.get platform is {check} #####################')
-
-
-    # print(f' ##################### platform is {platform} #####################')
-    # os.environ['PLATFORM'] = 'android-r2d2'
-
     platform = os.getenv("PLATFORM")
     print(f' ##################### platform is {platform} #####################')
-    options = get_options(PLATFORM_ANDROID)
+    options = get_options(platform)
+
     # Подключение к Appium серверу
     driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
 
-    # skip_button_locator = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
-    # wait_for_element_and_click(driver, skip_button_locator, 10, "не нашли skip_button_locator")
+    session_storage.set_session(driver)
 
-    # skip_button = driver.find_element(AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
-    # skip_button.click()
-
-    yield driver
-    driver.quit()
+    yield
+    session_storage.reset_session()
 
 
-APPIUM_PORT = 4723
-APPIUM_HOST = '127.0.0.1'
+@pytest.fixture()
+def onboarding_page():
+    return OnboardingPage()
 
 
-def get_options(platform):
+@pytest.fixture()
+def base_page():
+    return Basepage()
+
+
+def get_options(platform):  # есть ли разница где сохранять этот блок?
     if platform == PLATFORM_ANDROID:
         options = UiAutomator2Options()
         options.platform_name = "Android"

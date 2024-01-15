@@ -5,10 +5,9 @@ from appium.webdriver.common.appiumby import AppiumBy
 class WikiSearchLocators:
     LOCATOR_SEARCH_ELEMENT = (AppiumBy.ID, "org.wikipedia:id/search_container")
     LOCATOR_SEARCH_FIELD = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
-    LOCATOR_PYTHON_ARTICLE_SEARCH_RESULT = (AppiumBy.XPATH, '//android.widget.TextView['
-                                                            '@resource-id="org.wikipedia:id/page_list_item_title"'
-                                                            'and'
-                                                            '@text="{}"]')
+    LOCATOR_PYTHON_ARTICLE_SEARCH_RESULT = (AppiumBy.XPATH, '//android.widget.TextView[starts-with(@resource-id, '
+                                                            '"org.wikipedia:id/page_list_item_title") and '
+                                                            'starts-with(@text, "{}")]')
     # LOCATOR_PYTHON_ARTICLE_SEARCH_RESULT_TYPE = AppiumBy.XPATH
 
     LOCATOR_SEARCH_RESULTS = (
