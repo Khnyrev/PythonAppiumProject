@@ -1,15 +1,16 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from PythonAppiumProject.SessionStorage import session_storage
-from PythonAppiumProject.Utils.element_helpers import wait_for_element, count_searched_elements, clear_search_results
+from PythonAppiumProject.Utils.element_helpers import wait_for_element, count_searched_elements, \
+    clear_search_results, wait_for_elements
 
 
-class Basepage:
-    LOCATOR_SEARCH_ELEMENT = (AppiumBy.ID, "org.wikipedia:id/search_container")
-    LOCATOR_SEARCH_FIELD = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
-    LOCATOR_ARTICLES_SEARCH_RESULT = (AppiumBy.XPATH, '//android.widget.TextView[starts-with(@resource-id, '
-                                                      '"org.wikipedia:id/page_list_item_title") and '
-                                                      'starts-with(@text, "{}")]')
-    LOCATOR_CLEAR_SEARCH = (AppiumBy.ACCESSIBILITY_ID, 'Clear query')
+class IOSBasepage:
+    LOCATOR_SEARCH_ELEMENT = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeSearchField[`name == "Search Wikipedia"`]')
+    LOCATOR_SEARCH_FIELD = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeSearchField[`name == "Search Wikipedia"`]')
+    LOCATOR_ARTICLES_SEARCH_RESULT = (
+    AppiumBy.XPATH, '//XCUIElementTypeCell[.//XCUIElementTypeStaticText[contains(@value, "{}")]]')
+    # LOCATOR_ARTICLES_SEARCH_RESULT = (AppiumBy.XPATH, '//XCUIElementTypeCollectionView/XCUIElementTypeCell')
+    LOCATOR_CLEAR_SEARCH = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`name == "Clear text"`]')
 
     def enter_word(self, word):
         search_field_element = wait_for_element(session_storage.get_session(),  # как оптимизировать?
@@ -28,9 +29,14 @@ class Basepage:
         self.enter_word(word)
         changed_locator_value = self.LOCATOR_ARTICLES_SEARCH_RESULT[1].format(
             word)  # добавляем в локатор заданное слово
+        # print(f'############### changed_locator_value is {changed_locator_value} #######################')
         locator = (
             self.LOCATOR_ARTICLES_SEARCH_RESULT[0], changed_locator_value)  # собираем локатор после добавления слова
-        # print(f'############################ {locator} ###################################')
+        # print(f'############################ locator is {locator} ###################################')
+        wait_for_element(session_storage.get_session(),
+                         locator,
+                         10,
+                         'не нашли локатор для списка результатов поиска')
         current_elements_count = count_searched_elements(session_storage.get_session(),
                                                          locator,
                                                          10,

@@ -8,11 +8,12 @@ import time
 
 def test_onboarding_skip(onboarding_page):
     onboarding_page.skip_onboarding_page()
+    # time.sleep(5)
 
 
 def test_search_result(onboarding_page, base_page):
     onboarding_page.skip_onboarding_page()
-    base_page.check_searched_elements_count_greater_than(1, 'Java')
+    base_page.check_searched_elements_count_greater_than(1, 'Python')
     base_page.clear_search_field()
     base_page.check_search_result_empty()
 

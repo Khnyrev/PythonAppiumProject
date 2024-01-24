@@ -4,11 +4,14 @@ import os
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
+from PythonAppiumProject.Utils.Platform import get_options
 
 from PythonAppiumProject.SessionStorage import session_storage
 from PythonAppiumProject.pages.AndroidPages.onboarding_page import OnboardingPage
 from PythonAppiumProject.pages.AndroidPages.base_page import Basepage
 
+from PythonAppiumProject.pages.IOSpages.ios_base_page import IOSBasepage
+from PythonAppiumProject.pages.IOSpages.ios_onboarding_page import IOSOnboardingPage
 
 
 def pytest_report_header():
@@ -39,31 +42,19 @@ def get_driver(request):
 
 @pytest.fixture()
 def onboarding_page():
-    return OnboardingPage()
+    platform = os.getenv("PLATFORM")
+    if platform == 'android':
+        return OnboardingPage()
+    else:
+        return IOSOnboardingPage()
 
 
 @pytest.fixture()
 def base_page():
-    return Basepage()
-
-
-def get_options(platform):  # есть ли разница где сохранять этот блок?
-    if platform == PLATFORM_ANDROID:
-        options = UiAutomator2Options()
-        options.platform_name = "Android"
-        options.platformVersion = '13.0'
-        options.device_name = "some_device"
-        options.app_activity = ".main.MainActivity"
-        options.app_package = "org.wikipedia"
-        options.automation_name = "UiAutomator2"
-        options.app = "/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks/org.wikipedia.apk"
-    elif platform == PLATFORM_IOS:
-        options = XCUITestOptions()
-        options.platformName = "IOS"
-        options.deviceName = "iPhone 15"
-        options.platformVersion = "17.0"
-        options.app = "/Users/alekseykhnyrev/ios_projects/Wikipedia.app"
-        options.automation_name = "XCUITest"
+    platform = os.getenv("PLATFORM")
+    if platform == 'android':
+        return Basepage()
     else:
-        raise ValueError("Invalid platform name")
-    return options
+        return IOSBasepage()
+
+

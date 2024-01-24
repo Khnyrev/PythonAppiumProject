@@ -10,14 +10,31 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def wait_for_element(driver, locator, timeout=20, error_message="текст по умолчанию"):
     wait_result = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator), error_message)
+    # print(f'######## wait_for_element wait_result is {wait_result} #######')
+    return wait_result
+
+
+def wait_for_elements(driver, locator, timeout=20, error_message="текст по умолчанию"):
+    wait_result = WebDriverWait(driver, timeout).until(EC.visibility_of_all_elements_located(locator), error_message)
+    # print(f'######## wait_for_elements wait_result is {wait_result} #######')
     return wait_result
 
 
 def count_searched_elements(driver, locator, timeout=20, error_message="текст по умолчанию"):
-    # print(f"############## locator is {locator} #######################")
+    # print(f"############## locator inside count_searched_elements is {locator} #######################")
     count_result = driver.find_elements(locator[0], locator[1])
+    # print(f'######## len(count_result) is {len(count_result)} ##############')
     print(len(count_result))
     return len(count_result)
+
+
+# def ios_count_searched_elements(driver, locator, timeout=20, error_message="текст по умолчанию"):
+#     print(f"############## locator inside IOS_count_searched_elements is {locator} #######################")
+#     wait_for_element(driver, locator, 10, 'не дождались выдачу')
+#     count_result = driver.find_elements(locator[0], locator[1])
+#     print(f'######## len(count_result) is {len(count_result)} ##############')
+#     print(len(count_result))
+#     return len(count_result)
 
 
 def clear_search_results(driver, locator):
