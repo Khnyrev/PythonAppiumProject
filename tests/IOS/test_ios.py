@@ -18,37 +18,38 @@ def test_search_result(onboarding_page, base_page):
     base_page.check_search_result_empty()
 
 
-# def test_saving_two_articles_in_list(get_driver):
-#     OnboardingPage(get_driver).skip_onboarding()
+def test_saving_two_articles_in_list(onboarding_page, base_page, saved_articles_page):
+    onboarding_page.skip_onboarding_page()
+
+    base_page.click_saved_articles()
+    saved_articles_page.click_reading_lists()
+    saved_articles_page.click_create_new_reading_lists()
+    saved_articles_page.input_list_tile('Home Work')
+    saved_articles_page.click_create_readinglist_button()
+    base_page.click_explore_button()
+
+    base_page.open_searched_article('Java (programming language)')
+    base_page.click_save_button()
+    base_page.coordinates_click()
+    saved_articles_page.click_existing_homework_list()
+    base_page.click_goto_main_screen_button()
+
+    base_page.open_searched_article('Python (programming language)')
+    base_page.click_save_button()
+    base_page.coordinates_click()
+    saved_articles_page.click_existing_homework_list()
+    base_page.click_goto_main_screen_button()
+
+    base_page.click_saved_articles()
+    saved_articles_page.click_reading_lists()
+    saved_articles_page.click_existing_homework_list()
+    saved_articles_page.del_saved_python_article()
+    saved_articles_page.check_java_article_in_list()
+
+    time.sleep(5)
+##################
+
 #
-#     search_results = Search(get_driver)
-#     search_results.enter_word('PYTHON')
-#     article_screen = search_results.searched_article('Python (programming language)')
-#     article_screen.click()  # Open 1st article
-#
-#     kebab_menu = KebabMenu(get_driver)
-#     kebab_menu.open_kebab_menu()
-#     kebab_menu.open_customize_kebab_menu()
-#     kebab_menu.drug_save_icon()
-#     base_page = BasePage(get_driver)
-#     base_page.back_to_previous_screen()
-#
-#     kebab_menu.open_kebab_menu()
-#     kebab_menu.save_article_kebab_menu()
-#
-#     save_article_to_list = SaveArticle(get_driver)
-#     save_article_to_list.add_saved_article_to_list()
-#     save_article_to_list.set_article_list_name('AAAA')
-#
-#     save_article_to_list.article_page_search_enter_word('JAVA')
-#     article_screen = search_results.searched_article('Java (programming language)')
-#     article_screen.click()  # Open 2nd article
-#
-#     kebab_menu.open_kebab_menu()
-#     kebab_menu.save_article_kebab_menu()
-#     save_article_to_list.add_saved_article_to_list()
-#     save_article_to_list.add_article_to_existing_list()
-#     save_article_to_list.view_saved_list()  # здесь происходит нажатие на view saved list
 #
 #     article_list_element = ArticleLists(get_driver)
 #     article_list_element.locate_python_element()

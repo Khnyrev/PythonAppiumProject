@@ -12,6 +12,7 @@ from PythonAppiumProject.pages.AndroidPages.base_page import Basepage
 
 from PythonAppiumProject.pages.IOSpages.ios_base_page import IOSBasepage
 from PythonAppiumProject.pages.IOSpages.ios_onboarding_page import IOSOnboardingPage
+from PythonAppiumProject.pages.IOSpages.ios_saved_page import IOSSavedArticlesPage
 
 
 def pytest_report_header():
@@ -58,3 +59,10 @@ def base_page():
         return IOSBasepage()
 
 
+@pytest.fixture()
+def saved_articles_page():
+    platform = os.getenv("PLATFORM")
+    if platform == 'android':
+        return Basepage()
+    else:
+        return IOSSavedArticlesPage()

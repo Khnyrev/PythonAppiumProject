@@ -25,7 +25,7 @@ def test_search_result(onboarding_page, base_page):
 #     article_screen = search_results.searched_article('Python (programming language)')
 #     article_screen.click()  # Open 1st article
 #
-#     kebab_menu = KebabMenu(get_driver)
+#     kebab_menu = KebabMenu(get_driver
 #     kebab_menu.open_kebab_menu()
 #     kebab_menu.open_customize_kebab_menu()
 #     kebab_menu.drug_save_icon()

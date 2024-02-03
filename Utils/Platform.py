@@ -24,7 +24,9 @@ def get_options(platform):  # есть ли разница где сохраня
         options.platformName = "IOS"
         options.deviceName = "iPhone 15"
         options.platformVersion = "17.0"
-        options.app = "/Users/alekseykhnyrev/ios_projects/Wikipedia.app"
+        # options.app = "/Users/alekseykhnyrev/ios_projects/Wikipedia.app"
+        options.app = ("/Users/alekseykhnyrev/PycharmProjects/PythonAppiumProject/PythonAppiumProject/apks"
+                       "/Wikipedia690.app")
         options.automation_name = "XCUITest"
     else:
         raise ValueError("Invalid platform name")
