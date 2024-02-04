@@ -46,34 +46,8 @@ def test_saving_two_articles_in_list(onboarding_page, base_page, saved_articles_
     saved_articles_page.del_saved_python_article()
     saved_articles_page.check_java_article_in_list()
 
-    time.sleep(5)
-##################
 
-#
-#
-#     article_list_element = ArticleLists(get_driver)
-#     article_list_element.locate_python_element()
-#     article_list_element.swipe_element_right()
-#
-#     article_list_element.check_element_was_deleted()
-#     article_list_element.check_java_element()
-#
-#     article_body = ArticleBody(get_driver)
-#     java_element = article_body.check_java_title()
-#     java_element.click()
-#     article_body.check_java_title()
-#
-#
-# def test_assert_title(get_driver):
-#     OnboardingPage(get_driver).skip_onboarding()
-#
-#     search_results = Search(
-#         get_driver)
-#     search_results.enter_word('JAVA')
-#     article_screen = search_results.searched_article('Java (programming language)')
-#     article_screen.click()
-#
-#     article_body = ArticleBody(get_driver)
-#     article_body.check_assert_title()
-#
-#     time.sleep(5)
+def test_check_three_search_results(onboarding_page, base_page):
+    onboarding_page.skip_onboarding_page()
+    base_page.enter_word('Java')
+    base_page.check_three_results_java_search()

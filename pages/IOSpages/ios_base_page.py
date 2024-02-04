@@ -21,10 +21,13 @@ class IOSBasepage:
     LOCATOR_SAVED_BUTTON = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`name == "Saved"`]')
     LOCATOR_EXPLORE_BUTTON = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`name == "Explore"`]')
 
-    LOCATOR_ADD_TO_READINGLIST_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[contains(@name, "Add")]')  # //elementName[contains(@attr, "my_val")]
-    # LOCATOR_ADD_TO_READINGLIST_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Add “Treat Myself” to a reading list?"]')  # //elementName[contains(@attr, "my_val")]
-    # LOCATOR_ADD_TO_READINGLIST_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Add “Java (programming language)” to a reading list?"]')  # //elementName[contains(@attr, "my_val")]
-    # LOCATOR_ADD_TO_READINGLIST_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeImage')  # //elementName[contains(@attr, "my_val")]
+    LOCATOR_ADD_TO_READINGLIST_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[contains(@name, "Add")]')
+
+    LOCATOR_SEARCHED_JAVA_ISLAND_ARTICLE = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`name == "Java"`]')
+    LOCATOR_SEARCHED_JAVASCRIPT_ARTICLE = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`name == '
+                                                                     '"JavaScript"`]')
+    LOCATOR_SEARCHED_JAVA_PROGRAM_LANGUAGE_ARTICLE = (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`name '
+                                                                                '== "Java (programming language)"`]')
 
     def enter_word(self, word):
         search_field_element = wait_for_element(session_storage.get_session(),  # как оптимизировать?
@@ -133,10 +136,24 @@ class IOSBasepage:
                                       'LOCATOR_ADD_TO_READINGLIST_BUTTON not found')
         add_button.click()
 
-    def coordinates_click(self):
+    def coordinates_click(
+            self):  # пришлось реализовать клик по координатам, так как в билде 690 нет возможновсти получить доступ локаторам на экране статьи
         x_coordinate = 160
         y_coordinate = 740
 
         # Выполнение клика по заданным координатам
         driver = session_storage.get_session()
         driver.tap([(x_coordinate, y_coordinate)], 1)
+
+    def check_three_results_java_search(self):
+        wait_for_element(session_storage.get_session(), self.LOCATOR_SEARCHED_JAVA_PROGRAM_LANGUAGE_ARTICLE,
+                         10,
+                         'LOCATOR_SEARCHED_JAVA_PROGRAM_LANGUAGE_ARTICLE not found')
+        wait_for_element(session_storage.get_session(),
+                         self.LOCATOR_SEARCHED_JAVA_ISLAND_ARTICLE,
+                         10,
+                         'LOCATOR_SEARCHED_JAVA_ISLAND_ARTICLE not found')
+        wait_for_element(session_storage.get_session(),
+                         self.LOCATOR_SEARCHED_JAVASCRIPT_ARTICLE,
+                         10,
+                         'LOCATOR_SEARCHED_JAVASCRIPT_ARTICLE not found')
