@@ -1,17 +1,18 @@
-# from PythonAppiumProject.pages.main_page_object import Search
-from PythonAppiumProject.pages.article_page_object import KebabMenu, SaveArticle, ArticleBody
-from PythonAppiumProject.pages.article_list_object import ArticleLists
-from PythonAppiumProject.pages.AndroidPages.onboarding_page import OnboardingPage
-from PythonAppiumProject.pages.base_page import BasePage
 import time
+import allure
 
 
+@allure.title("Simple Onboarding skip")
+@allure.description("this test just clicks the skip button, it doesn't test anything else.")
 def test_onboarding_skip(onboarding_page):
     onboarding_page.skip_onboarding_page()
     # time.sleep(5)
 
 
+@allure.title("Check search work")
+@allure.description("this test checks that the number of articles found for a given word is greater than a given number")
 def test_search_result(onboarding_page, base_page):
+
     onboarding_page.skip_onboarding_page()
     base_page.check_searched_elements_count_greater_than(1, 'Python')
     base_page.clear_search_field()

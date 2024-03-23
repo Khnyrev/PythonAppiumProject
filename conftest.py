@@ -34,7 +34,7 @@ def get_driver(request):
 
     # Подключение к Appium серверу
     driver = webdriver.Remote("http://0.0.0.0:4723", options=options)
-
+    # driver = webdriver.Remote("http://host.docker.internal:4723", options=options)  # использовать для запуска в docker
     session_storage.set_session(driver)
 
     yield
